@@ -11,7 +11,7 @@
         from: " ",
     })
 
-    getHitokoto()
+    getHitokoto()   
 
     function changeDarkMode() {
         darkMode.value = !darkMode.value
