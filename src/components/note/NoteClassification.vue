@@ -232,7 +232,7 @@
     font-size: 80%;
 }
 .latest {
-    height
+    height: 100px;
     background-color: rgb(247, 247, 247);
 }
 </style>
