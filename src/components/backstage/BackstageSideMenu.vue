@@ -1,10 +1,10 @@
 <script setup>
     import {reactive} from 'vue'
-
+    const emit = defineEmits(['change-component'])
     const menuList = reactive({
         '总览': {
             'display': true,
-            'link': '',
+            'link': 'BackstageOverview',
             'icon': 'fa-tasks',
             'hasSubmenu': false,
         },
@@ -14,7 +14,14 @@
             'icon': 'fa-file-text',
             'hasSubmenu': true,
             'submenu': {
-
+                '管理笔记': {
+                    'display': false,
+                    'link': 'BackstageManageNote',
+                },
+                '添加笔记': {
+                    'display': false,
+                    'link': 'BackstageAddNote',
+                }
             }
         },
         '项目': {
@@ -23,18 +30,7 @@
             'icon': 'fa-magnet',
             'hasSubmenu': true,
             'submenu': {
-                'PNG To ICO': {
-                    'display': false,
-                    'link': '',
-                },
-                'PNG To ICO2': {
-                    'display': false,
-                    'link': '',
-                },
-                'PNG To ICO3': {
-                    'display': false,
-                    'link': '',
-                }
+                
             }
         },
         '工具': {
@@ -44,14 +40,6 @@
             'hasSubmenu': true,
             'submenu': {
                 'PNG To ICO': {
-                    'display': false,
-                    'link': '',
-                },
-                'PNG To ICO2': {
-                    'display': false,
-                    'link': '',
-                },
-                'PNG To ICO3': {
                     'display': false,
                     'link': '',
                 }
@@ -78,7 +66,7 @@
                 for (const submenuNameTemp in menuList[menuNameTemp].submenu)
                 menuList[menuNameTemp].submenu[submenuNameTemp].display = false;
             }
-            console.log("跳转到" + menuList[menuName].link)
+            emit('change-component', menuList[menuName].link)
         }
     }
     function clickSubmenu(menuName, submenuName) {
@@ -87,7 +75,7 @@
             menuList[menuNameTemp].submenu[submenuNameTemp].display = false;
         }
         menuList[menuName].submenu[submenuName].display = true;
-        console.log("跳转到" + menuList[menuName].submenu[submenuName].link)
+        emit('change-component', menuList[menuName].submenu[submenuName].link)
     }
 </script>
 
@@ -112,5 +100,6 @@
                 </transition>
             </li>
         </ul>
+        <a class="foot">@Copyright</a>
     </div>
 </template>
