@@ -28,6 +28,13 @@ const routes = [{
     meta: {
         title: 'Tool | Asriel',
     }
+},{
+    path: '/admin',
+    name: 'Admin',
+    component:()=>import('../components/backstage/BackstageFrame.vue'),
+    meta: {
+        title: 'Admin | Asriel',
+    }
 }]
 
 const router = createRouter({

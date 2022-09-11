@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import Navbar from './note/NoteNavbar.vue'
 import Sidebar from './general/GeneralSidebar.vue'
-import Classification from './note/NoteClassification.vue'
+import Side from './note/NoteSide.vue'
 
 const sidebarMode = ref(false)
 
@@ -24,7 +24,7 @@ let siderTimer = 0
     <div class="container">
         <Navbar @change-sidebar="changeSidebar" title="Note" current-page="note"></Navbar>
         <Sidebar :sidebarMode="sidebarMode" @change-sidebar="changeSidebar"></Sidebar>
-        <Classification />
+        <Side />
         <div style="height: 1500px;"></div>
     </div>
 </template>
@@ -33,7 +33,7 @@ let siderTimer = 0
 *{
     margin: 0;
     padding: 0;
-    caret-color: rgba(0,0,0,0);
+    /* caret-color: rgba(0,0,0,0); */
     user-select: none;
 }
 .container {
