@@ -1,13 +1,22 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router/index.js'
-import mavonEditor from 'mavon-editor';
+import VueMarkdownEditor from '@kangc/v-md-editor'
+import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js'
 
 import './assets/main.css'
 import './assets/font-awesome/css/font-awesome.min.css'
-import 'mavon-editor/dist/css/index.css';
+import '@kangc/v-md-editor/lib/style/base-editor.css';
+import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
+
+import Prism from 'prismjs';
+
+VueMarkdownEditor.use(vuepressTheme, {
+  Prism,
+});
 
 const app = createApp(App)
-app.use(mavonEditor);
 app.use(router)
+app.use(VueMarkdownEditor);
+app.config.globalProperties.$httpUrl = "http://127.0.0.1:8080"
 app.mount('#app')

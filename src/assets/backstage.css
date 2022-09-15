@@ -12,6 +12,97 @@
 .backstage {
     font-family: BPreplay;
 }
+
+.backstage.login {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+}
+.backstage.login .loginBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: #949494 0 10px 20px;
+}
+.backstage.login .loginBox .table{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 500px;
+    height: 600px;
+    background-color: white;
+    position: relative;
+}
+.backstage.login .loginBox .table a{
+    margin-bottom: 50px;
+    font-size: 1.6em;
+    color: rgb(95, 95, 95);
+}
+.backstage.login .loginBox .table .inputBox {
+    margin-top: 30px;
+    position: relative;
+}
+.backstage.login .loginBox .table .inputBox label{
+    top: 0px;
+    left: 6px;
+    position: absolute;
+    font-size: 1em;
+    color: rgb(95, 95, 95);
+    pointer-events: none;
+    transition: all 0.1s;
+}
+.backstage.login .loginBox .table .inputBox input{
+    height: 20px;
+    border: none;
+    border-bottom: #101C2C solid 1px;
+    outline: none;
+    font-size: 1em;
+    text-indent: 3px;
+    width: 230px;
+}
+.backstage.login .loginBox .table .inputBox input:focus ~ label {
+    top: -20px;
+    font-size: 0.6em;
+    color: rgb(155, 155, 155);
+}
+.backstage.login .loginBox .table .inputBox input:valid ~ label {
+    top: -20px;
+    font-size: 0.6em;
+    color: rgb(155, 155, 155);
+}
+.backstage.login .loginBox .table .warnMessage {
+    color: var(--mainColorThree);
+    position: absolute;
+    right: 120px;
+    top: 355px;
+    font-size: 0.8em;
+    height: 20px;
+}
+.backstage.login .loginBox .table .button{
+    cursor: pointer;
+    margin-top: 60px;
+    height: 35px;
+    width: 110px;
+    border-radius: 20px;
+    background-color: rgb(168, 168, 168);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.backstage.login .loginBox .table .button a {
+    color: white;
+    font-size: 1em;
+    margin: 0;
+    padding: 0;
+}
+.backstage.login .loginBox img {
+    height: 600px;
+    caret-color: rgba(0,0,0,0);
+}
+
 .backstage.logo {
     padding-top: 40px;
     padding-left: 25px;
