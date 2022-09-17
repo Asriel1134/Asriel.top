@@ -62,6 +62,11 @@
     font-size: 1em;
     text-indent: 3px;
     width: 230px;
+    height: 20px;
+}
+.backstage.login .loginBox .table .inputBox input:-internal-autofill-selected {
+    box-shadow:0 0 0 1000px white inset !important;
+    /* transition: background-color 5000s ease-in-out 0s !important; */
 }
 .backstage.login .loginBox .table .inputBox input:focus ~ label {
     top: -20px;
@@ -221,9 +226,40 @@
     font-size: 90%;
     color: var(--fontColor);
 }
-
 .backstage.component {
     width: calc(100vw - 230px);
     position: relative;
     left: 230px;
+}
+.backstage.noteManage {
+    /* background-color: var(--mainColorFour); */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    caret-color: rgba(0,0,0,0);
+}
+.backstage.noteManage .toolBar {
+    margin-top: 30px;
+    width: 95%;
+    /* background-color: #139889; */
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding: 0 5px;
+}
+.backstage.noteManage .toolBar select {
+    text-indent: 7px;
+    height: 30px;
+    width: 130px;
+    border-radius: 3px;
+    border: #cacaca solid 1px;
+    outline: none;
+    appearance: none;
+}
+.backstage.noteManage .toolBar select optgroup {
+    
+}
+.backstage.noteManage .toolBar select option {
+    appearance: none;
 }
