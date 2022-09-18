@@ -233,9 +233,9 @@
 }
 .backstage.noteManage {
     /* background-color: var(--mainColorFour); */
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     caret-color: rgba(0,0,0,0);
 }
@@ -246,20 +246,133 @@
     height: 40px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 0 5px;
 }
-.backstage.noteManage .toolBar select {
-    text-indent: 7px;
+.backstage.noteManage .toolBar .select {
+    position: relative;
+}
+.backstage .classificationSelecter {
     height: 30px;
-    width: 130px;
+    width: 150px;
     border-radius: 3px;
     border: #cacaca solid 1px;
     outline: none;
     appearance: none;
 }
-.backstage.noteManage .toolBar select optgroup {
-    
+.backstage .classificationSelecter .classificationInput {
+    font-family: BPreplay;
+    padding: 0;
+    font-size: 0.9em;
+    color: #000;
+    text-indent: 10px;
+    border: none;
+    outline: none;
+    height: 100%;
+    width: 100%;
+    background-color: #ffffff00;
 }
-.backstage.noteManage .toolBar select option {
+.backstage .classificationSelecter.show {
+    border: 1px solid var(--mainColorTwo);
+    box-shadow: #13988955 0 0 3px;
+}
+.backstage .classificationSelecter .selectIcon {
+    z-index: -1;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    transition: all 0.1s ease-in-out;
+}
+.backstage .classificationSelecter.show .selectIcon {
+    transform: rotate(-180deg);
+}
+.backstage .classificationSelecterMenu {
+    position: absolute;
+    background-color: #fff;
+    left: 1px;
+    top: 36px;
+}
+.backstage .classificationSelecterMenu ul {
+    list-style: none;
+    margin: 0;
+    padding: 3px 0;
+    border-radius: 3px;
+    box-shadow: #cccccc 0 0 5px;
+    width: 150px;   
+}
+.backstage .classificationSelecterMenu ul li {
+    color: rgb(58, 58, 58);
+    font-size: 0.9em;
+    padding: 1px 10px 2px 0;
+    display: flex;
+    justify-content: space-between;
+    line-height: 30px;
+    height: 30px;
+    text-indent: 10px;
+}
+.backstage .classificationSelecterMenu ul li:hover {
+    background-color: #13988922;
+    color: #000;
+}
+.backstage .classificationSelecterMenu ul li .noteCount {
+    font-size: 0.6em;
+    color: rgb(134, 134, 134);
+}
+.backstage.noteManage .toolBar button {
+    background-color: #FFF;
+    height: 30px;
+    width: 30px;
+    margin-left: 10px;
+    border-radius: 3px;
+    border: #cacaca solid 1px;
+    outline: none;
     appearance: none;
+    transition: all 0.1s;
+    padding-top: 4px;
+}
+.backstage.noteManage .refresh svg {
+    transition: all 0.3s;
+}
+.backstage.noteManage .toolBar button:hover {
+    border: 1px solid var(--mainColorTwo);
+    box-shadow: #13988955 0 0 3px;
+}
+.backstage.noteManage .toolBar button:active {
+    background-color: #13988922;
+}
+.backstage.noteManage .refresh.rotate svg {
+    animation: refresh 0.5s infinite;
+}
+@keyframes refresh {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+.backstage.noteManage .toolBar .reducePage svg{
+    transform: rotate(180deg);
+}
+.backstage.noteManage .toolBar .addPage {
+    padding-top: 3px;
+}
+.backstage.noteManage .toolBar .pageCount {
+    font-size: .9em;
+    color: #868686;
+    margin-left: 10px;
+}
+.backstage.noteManage .toolBar .left,
+.backstage.noteManage .toolBar .right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.backstage.noteManage .noteListArea {
+    margin-top: 8px;
+    height: 88%;
+    width: 95%;
+    border-radius: 3px;
+    /* background-color: #139889; */
 }

@@ -19,7 +19,7 @@
             warnMessage.value = ""
             axios({
                 method: 'post',
-                url: globalProperties.$httpUrl + "/backstage/login",
+                url: globalProperties.$httpUrl + "/login",
                 params: {
                     username: username.value,
                     password: password.value
