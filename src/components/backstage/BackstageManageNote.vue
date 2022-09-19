@@ -1,7 +1,7 @@
 <script setup>
     import axios from "axios";
-    import { getCurrentInstance, ref } from 'vue';
-    import {store} from '../../store.js'
+    import { getCurrentInstance, ref, computed } from 'vue';
+    import { store } from '../../store.js'
     const { appContext : { config: { globalProperties } } } = getCurrentInstance()
     const classificationSelected = ref("All")
     const noteClassList = ref([])
@@ -13,7 +13,7 @@
     getNoteClassList()
 
     // 类选框
-    let isclassificationMenuShow = ref(false)
+    const isclassificationMenuShow = ref(false)
     document.addEventListener('click', (e)=>{
         if (e.target.className != 'classificationInput') {
             isclassificationMenuShow.value = false;
@@ -25,6 +25,27 @@
     }
     function changeClassification(className) {
         classificationSelected.value = className
+        filterNoteByClass()
+        pageInit()
+    }
+    function filterNoteByClass() {
+        if (classificationSelected.value == "All") {
+            filteredNoteList.value = noteList.value
+        } else if (classificationSelected.value == "Star") {
+            filteredNoteList.value = []
+            for (let i=0; i<noteList.value.length; i++){
+                if (noteList.value[i].star == 1){
+                    filteredNoteList.value.push(noteList.value[i])
+                }
+            }
+        } else {
+            filteredNoteList.value = []
+            for (let i=0; i<noteList.value.length; i++){
+                if (noteList.value[i].className == classificationSelected.value){
+                    filteredNoteList.value.push(noteList.value[i])
+                }
+            }
+        }
     }
     function getNoteClassList() {
         axios({
@@ -39,8 +60,8 @@
     }
 
     // 刷新按钮
-    let refreshRotateCounter = ref(0)
-    let isRefreshRotate = ref(false)
+    const refreshRotateCounter = ref(0)
+    const isRefreshRotate = ref(false)
     function refreshNotelist() {
         getNoteClassList()
         getNoteList()
@@ -65,15 +86,37 @@
             if (filteredNoteList.value[0] == "Init"){
                 filteredNoteList.value = res.data
             }
+            filterNoteByClass()
+            pageInit()
         })
     }
 
     // 翻页
+    const pageUpperLimit = ref(0)
+    const pageLowerLimit = ref(0)
+    const pageLength = 10
+    const computedNoteList = computed(() => {
+        return filteredNoteList.value.slice(pageLowerLimit.value-1, pageUpperLimit.value)
+    })
+    function pageInit() {
+        pageLowerLimit.value = 1
+        pageUpperLimit.value = Math.min(pageLength, filteredNoteList.value.length)
+    }
     function addPage() {
-
+        if (pageUpperLimit.value >= filteredNoteList.value.length){
+            return
+        } else {
+            pageLowerLimit.value = pageUpperLimit.value + 1
+            pageUpperLimit.value = Math.min(pageUpperLimit.value + pageLength, filteredNoteList.value.length)
+        }
     }
     function reducePage() {
-        
+        if (pageLowerLimit.value <= 1){
+            return
+        } else {
+            pageUpperLimit.value = pageLowerLimit.value - 1
+            pageLowerLimit.value = pageLowerLimit.value - pageLength
+        }
     }
 
 </script>
@@ -104,7 +147,7 @@
                 <button class="reducePage" @click="reducePage">
                     <svg t="1663519461169" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2524" width="12" height="12"><path d="M312.888889 995.555556c-17.066667 0-28.444444-5.688889-39.822222-17.066667-22.755556-22.755556-17.066667-56.888889 5.688889-79.644445l364.088888-329.955555c11.377778-11.377778 17.066667-22.755556 17.066667-34.133333 0-11.377778-5.688889-22.755556-17.066667-34.133334L273.066667 187.733333c-22.755556-22.755556-28.444444-56.888889-5.688889-79.644444 22.755556-22.755556 56.888889-28.444444 79.644444-5.688889l364.088889 312.888889c34.133333 28.444444 56.888889 73.955556 56.888889 119.466667s-17.066667 85.333333-51.2 119.466666l-364.088889 329.955556c-11.377778 5.688889-28.444444 11.377778-39.822222 11.377778z" p-id="2525"></path></svg>
                 </button>
-                <a class="pageCount">1-20 OF 200</a>
+                <a class="pageCount">{{pageLowerLimit}}-{{pageUpperLimit}} OF {{filteredNoteList.length}}</a>
                 <button class="addPage" @click="addPage">
                     <svg t="1663519461169" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2524" width="12" height="12"><path d="M312.888889 995.555556c-17.066667 0-28.444444-5.688889-39.822222-17.066667-22.755556-22.755556-17.066667-56.888889 5.688889-79.644445l364.088888-329.955555c11.377778-11.377778 17.066667-22.755556 17.066667-34.133333 0-11.377778-5.688889-22.755556-17.066667-34.133334L273.066667 187.733333c-22.755556-22.755556-28.444444-56.888889-5.688889-79.644444 22.755556-22.755556 56.888889-28.444444 79.644444-5.688889l364.088889 312.888889c34.133333 28.444444 56.888889 73.955556 56.888889 119.466667s-17.066667 85.333333-51.2 119.466666l-364.088889 329.955556c-11.377778 5.688889-28.444444 11.377778-39.822222 11.377778z" p-id="2525"></path></svg>
                 </button>
@@ -112,7 +155,11 @@
         </div>
 
         <div class="noteListArea">
-
+            <ul>
+                <li v-for="(note, index) in computedNoteList" :key="index">
+                    {{note.title}}
+                </li>
+            </ul>
         </div>
     </div>
 </template>
