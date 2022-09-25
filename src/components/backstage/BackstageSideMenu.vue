@@ -10,19 +10,9 @@
         },
         '笔记': {
             'display': false,
-            'link': '',
+            'link': 'BackstageManageNote',
             'icon': 'fa-file-text',
-            'hasSubmenu': true,
-            'submenu': {
-                '管理笔记': {
-                    'display': false,
-                    'link': 'BackstageManageNote',
-                },
-                '添加笔记': {
-                    'display': false,
-                    'link': 'BackstageAddNote',
-                }
-            }
+            'hasSubmenu': false,
         },
         '项目': {
             'display': false,

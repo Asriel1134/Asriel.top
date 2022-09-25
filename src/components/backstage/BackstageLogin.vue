@@ -32,7 +32,6 @@
                     store.setToken(res.data.data.token)
                     emit("login-success")
                 }
-                console.log(store.token);
             })
         }
     }
