@@ -1,11 +1,12 @@
 <script setup>
     import { ref } from 'vue'
-    import BackstageSideMenuVue from './BackstageSideMenu.vue';
+    import BackstageSideMenu from './BackstageSideMenu.vue';
     import BackstageOverview from './BackstageOverview.vue';
     import BackstageManageNote from './BackstageManageNote.vue';
     import BackstageAddNote from './BackstageAddNote.vue';
     import BackstageEditNote from './BackstageEditNote.vue';
     import BackstageLogin from './BackstageLogin.vue';
+    import BackstageMessage from './BackstageMessage.vue';
 
     const components = {
         BackstageOverview,
@@ -27,12 +28,30 @@
     function returnFromNoteEditer() {
         componentName.value = "BackstageManageNote"
     }
+    function addNote(){
+        componentName.value = 'BackstageAddNote'
+    }
+    const message = ref('')
+    const msgIsShow = ref(false)
+    const msgType = ref('')
+    function showMsg(msg, type){
+        message.value = msg
+        msgIsShow.value = true
+        msgType.value = type
+        console.log(msg);
+        console.log(type);
+        setTimeout(closeMsg, 2000)
+    }
+    function closeMsg() {
+        msgIsShow.value = false
+    }
 </script>
 
 <template>
-    <BackstageLogin v-if="!isLogin" @login-success="isLogin = true"></BackstageLogin>
+    <BackstageLogin @msg="showMsg" v-if="!isLogin" @login-success="isLogin = true"></BackstageLogin>
     <div v-else>
-        <BackstageSideMenuVue @change-component="changeComponent"></BackstageSideMenuVue>
-        <component @editNote="editNote" @returnFromNoteEditer="returnFromNoteEditer" :note="editingNote" class="backstage component" :is="components[componentName]"></component>
+        <BackstageSideMenu @change-component="changeComponent"></BackstageSideMenu>
+        <component @msg="showMsg" @addNote="addNote" @editNote="editNote" @returnFromNoteEditer="returnFromNoteEditer" :note="editingNote" class="backstage component" :is="components[componentName]"></component>
     </div>
+    <BackstageMessage :isShow="msgIsShow" :msg='message' :type="msgType"></BackstageMessage>
 </template>

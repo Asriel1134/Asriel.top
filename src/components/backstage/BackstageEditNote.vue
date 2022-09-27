@@ -4,6 +4,7 @@
     import { store } from '../../store.js'
     const { appContext : { config: { globalProperties } } } = getCurrentInstance()
     const props = defineProps(['note'])
+    const emit = defineEmits(['msg'])
     const note = ref(props.note)
 
     // 类选框
@@ -40,8 +41,6 @@
         note.value.star = note.value.star==1 ? 0 : 1
     }
 
-    const warnMessage = ref("")
-    const messageAnim = ref("")
     function updateNote() {
         axios({
             method: 'post',
@@ -59,14 +58,41 @@
                 token: store.token
             }
         }).then(res => {
-            console.log(res.data);
-            warnMessage.value = res.data.msg
-            messageAnim.value = "anim"
-            function resetAnim() {
-                messageAnim.value=''
-            }
-            setTimeout(resetAnim, 200)
+            emit('msg', res.data.msg)
         })
+    }
+
+    const addClassShow = ref(false)
+    const addClassName = ref("")
+    function showAddClass() {
+        if (!addClassShow.value) {
+            addClassShow.value = true
+        } else {
+            if (addClassName.value != ""){
+                axios({
+                    method: 'post',
+                    url: globalProperties.$httpUrl + "/addNoteClass",
+                    params: {
+                        className: addClassName.value
+                    },
+                    headers: {
+                        token: store.token
+                    }
+                }).then(res => {
+                    if (res.data.data){
+                        addClassName.value = ""
+                        addClassShow.value = !addClassShow.value
+                        getNoteClassList()
+                        emit('msg', 'Add classification success')
+                    } else {
+                        emit('msg', res.data.msg)
+                    }
+                })
+            } else {
+                addClassName.value = ""
+                addClassShow.value = !addClassShow.value
+            }
+        }
     }
 </script>
 
@@ -101,9 +127,14 @@
                         </ul>
                     </div>
                 </div>
-                <button class="addClass">
-                    <svg t="1663780373337" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2552" width="16" height="16"><path d="M512 832a32 32 0 0 0 32-32v-256h256a32 32 0 0 0 0-64h-256V224a32 32 0 0 0-64 0v256H224a32 32 0 0 0 0 64h256v256a32 32 0 0 0 32 32" p-id="2553" fill="#515151"></path></svg>    
-                </button>
+                <div class="addClassArea">
+                    <button class="addClass" @click="showAddClass">
+                        <svg t="1663780373337" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2552" width="16" height="16"><path d="M512 832a32 32 0 0 0 32-32v-256h256a32 32 0 0 0 0-64h-256V224a32 32 0 0 0-64 0v256H224a32 32 0 0 0 0 64h256v256a32 32 0 0 0 32 32" p-id="2553" fill="#515151"></path></svg>    
+                    </button>
+                    <div class="addClassInput" :class="{addClassShow : addClassShow}">
+                        <input type="text" v-model="addClassName" name="" id="">
+                    </div>
+                </div>
             </div>
             <div class="submitArea">
                 <button class="submit" @click="updateNote">
@@ -112,7 +143,6 @@
                 <button  class="cancel" @click="$emit('returnFromNoteEditer')">
                     Return
                 </button>
-                <a class="warnMessage" :class="messageAnim">{{warnMessage}}</a>
             </div>
         </div>
         <div class="editer">

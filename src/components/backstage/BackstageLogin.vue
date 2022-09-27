@@ -3,17 +3,17 @@
     import { getCurrentInstance, ref } from "vue"
     import {store} from '../../store.js'
     const { appContext : { config: { globalProperties } } } = getCurrentInstance()
-    const emit = defineEmits(['login-success'])
+    const emit = defineEmits(['login-success', 'msg'])
     let warnMessage = ref("")
     const username = ref("")
     const password = ref("")
 
     function login() {
         if(username.value==""){
-            warnMessage.value = "Username is NULL"
+            emit('msg', "Username is NULL")
         }
         else if(password.value==""){
-            warnMessage.value = "Password is NULL"
+            emit('msg', "Password is NULL")
         }
         else {
             warnMessage.value = ""
@@ -26,7 +26,7 @@
                 }
             }).then(res => {
                 if (res.data.code == 1) {
-                    warnMessage.value = res.data.msg
+                    emit('msg', res.data.msg, 'warn') 
                 }
                 if (res.data.code == 0) {
                     store.setToken(res.data.data.token)
@@ -50,7 +50,6 @@
                     <input type="password" required v-model="password">
                     <label>Password</label>
                 </div>
-                <a class="warnMessage">{{warnMessage}}</a>
                 <div class="button" @click="login"><a>Login</a></div>
             </div>
             <img src="@/assets/img/02.jpeg" alt="">

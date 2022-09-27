@@ -8,6 +8,7 @@
     const noteClassList = ref([])
     const noteList = ref([])
     const filteredNoteList = ref(["Init"])
+    const emit = defineEmits(['msg'])
 
     // 初始化
     getNoteList()
@@ -65,7 +66,9 @@
     const isRefreshRotate = ref(false)
     function refreshNotelist() {
         getNoteClassList()
-        getNoteList()
+        getNoteList().then(() => {
+            emit('msg', 'Refresh success')
+        })
         isRefreshRotate.value = true;
         refreshRotateCounter.value += 1;
         setTimeout(function() {
@@ -170,6 +173,7 @@
             }
         }).then(res => {
             if (res.data.data) {
+                emit('msg', "Delete success", 'warn')
                 for (let i=0; i<noteList.value.length; i++) {
                     if (noteList.value[i].id == note.id) {
                         noteList.value.splice(i, 1)
@@ -229,7 +233,7 @@
                 <button>
                     <svg t="1663611318336" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2686" width="16" height="16"><path d="M952 896l-204.992-204.992q86.016-106.016 86.016-243.008 0-159.008-112.512-271.488T448.512 64t-272 112.512T64 448.512t112.512 272T448 833.024q136.992 0 242.016-84.992l204.992 204q12 12 28.512 12t28-11.488 11.488-28-11.008-28.512z m-381.984-160Q512 760.992 448 760.992q-63.008 0-120.992-24.992-56-23.008-100-66.016Q184 625.984 160 569.984q-24-58.016-24-122.016 0-63.008 24-120.992 24-56 67.008-99.008 44-44 100-68 58.016-24 120.992-24 64 0 122.016 24 56 24 99.488 67.488T736 326.944q24.992 58.016 24.992 122.016 0 63.008-24.992 120.992-23.008 56-66.016 100-44 43.008-100 66.016z" p-id="2687" fill="#515151"></path></svg>
                 </button>
-                <button @click="">
+                <button @click="$emit('addNote')">
                     <svg t="1664039916875" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2556" width="16" height="16"><path d="M465.02 467l-0.086-309.988C464.928 132.16 485.07 112.006 509.922 112c24.852-0.006 45.006 20.134 45.012 44.988l0.086 310.012h310.21c24.852 0 45 20.148 45 45s-20.148 45-45 45H555.046l0.084 309.988c0.008 24.852-20.134 45.006-44.986 45.012-24.854 0.006-45.006-20.134-45.014-44.988l-0.084-310.012H157C132.148 557 112 536.852 112 512s20.148-45 45-45h308.02z" p-id="2557" fill="#515151"></path></svg>
                 </button>
             </div>

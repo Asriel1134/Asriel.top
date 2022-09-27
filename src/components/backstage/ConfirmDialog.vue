@@ -64,7 +64,7 @@
 .confirmContent {
     flex: 1;
     display: block;
-    padding: 0 15px;
+    padding: 0 25px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -96,5 +96,15 @@
 }
 .confirmButton:hover {
     background-color: #13988922;
+}
+
+.confirm-enter-active,
+.confirm-leave-active {
+    transition: all 0.2s ease;
+}
+.confirm-enter-from,
+.confirm-leave-to {
+    transform: translateY(-30px);
+    opacity: 0;
 }
 </style>
