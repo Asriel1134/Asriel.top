@@ -18,5 +18,5 @@ VueMarkdownEditor.use(vuepressTheme, {
 const app = createApp(App)
 app.use(router)
 app.use(VueMarkdownEditor);
-app.config.globalProperties.$httpUrl = "http://127.0.0.1:8080"
+app.config.globalProperties.$httpUrl = "http://43.143.184.111:8080"
 app.mount('#app')

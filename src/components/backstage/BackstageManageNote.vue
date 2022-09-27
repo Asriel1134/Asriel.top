@@ -8,7 +8,7 @@
     const noteClassList = ref([])
     const noteList = ref([])
     const filteredNoteList = ref(["Init"])
-    const emit = defineEmits(['msg'])
+    const emit = defineEmits(['msg', 'addNote', 'editNote'])
 
     // 初始化
     getNoteList()

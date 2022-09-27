@@ -109,6 +109,29 @@
             }
         }
     }
+
+    function handleUploadImage(event, insertImage, files) {
+        for(let i in files){
+            const formData = new FormData();
+            formData.append('file', files[i]);
+            axios.post(globalProperties.$httpUrl + "/upload", formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    token: store.token
+                }
+            }).then(
+                res => {
+                console.log(res.data);
+                if (res.data.code == 0) {
+                    insertImage({
+                        url: globalProperties.$httpUrl + "/_upload/" + res.data.data,
+                        desc: files[i].name,
+                    })
+                }
+            }
+            )
+        }
+    }
 </script>
 
 <template>
@@ -161,7 +184,7 @@
             </div>
         </div>
         <div class="editer">
-            <v-md-editor v-model="note.text" height="725px"></v-md-editor>
+            <v-md-editor :disabled-menus="[]" @upload-image="handleUploadImage" v-model="note.text" height="725px"></v-md-editor>
         </div>
     </div>
 </template>
